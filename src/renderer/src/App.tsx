@@ -1,14 +1,47 @@
+import React from 'react'
 import Navbar from './components/Navbar'
-import Voice from './components/Voice'
+import Actionbar from './components/Actionbar'
 
-function App(): JSX.Element {
-  return (
-    <>
-      <Navbar />
-      {/* tracking height ensuring it always at the buttom of the page */}
-      <Voice />
-    </>
-  )
+interface State {
+  windowWidth: number
+  windowHeight: number
+}
+
+class App extends React.Component<object, State> {
+  state: State = {
+    windowWidth: window.innerWidth,
+    windowHeight: window.innerHeight
+  }
+
+  updateWidth = (): void => {
+    this.setState({ windowWidth: window.innerWidth })
+  }
+
+  updateHeight = (): void => {
+    this.setState({ windowHeight: window.innerHeight })
+  }
+
+  componentDidMount = (): void => {
+    const { updateWidth, updateHeight } = this
+    window.addEventListener('resize', updateWidth)
+    window.addEventListener('resize', updateHeight)
+  }
+
+  componentWillUnmount = (): void => {
+    const { updateWidth, updateHeight } = this
+    window.removeEventListener('resize', updateWidth)
+    window.removeEventListener('resize', updateHeight)
+  }
+
+  render(): React.ReactNode {
+    const { windowWidth, windowHeight } = this.state
+    return (
+      <>
+        <Navbar />
+        <Actionbar windowWidth={windowWidth} windowHeight={windowHeight} />
+      </>
+    )
+  }
 }
 
 export default App

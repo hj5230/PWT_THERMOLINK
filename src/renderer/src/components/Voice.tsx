@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from 'antd'
-import style from '@renderer/assets/index.module.less'
+import style from '@renderer/assets/actbar.module.less'
 
 class Voice extends React.Component {
   render(): React.ReactNode {
