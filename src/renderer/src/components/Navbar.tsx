@@ -1,6 +1,6 @@
 import React from 'react'
 import { Row, Col, Button, Popover, Divider } from 'antd'
-import { SettingOutlined, UserOutlined } from '@ant-design/icons'
+import { SettingOutlined, UserSwitchOutlined } from '@ant-design/icons'
 import style from '@renderer/assets/navbar.module.less'
 
 class Navbar extends React.Component {
@@ -18,24 +18,24 @@ class Navbar extends React.Component {
     const { userPopover } = this
     return (
       <>
-        <Row>
-          <Col span={8} style={{ textAlign: 'start' }}>
-            <Button className={style.row_content}>
-              <SettingOutlined />
+        <Row className={style.row_content}>
+          <Col span={8} className={style.settings_col}>
+            <Button className={style.big_nav_btn} type="link">
+              <SettingOutlined style={{ fontSize: '30px' }} />
             </Button>
           </Col>
-          <Col span={8} style={{ textAlign: 'center' }}>
+          <Col span={8} className={style.info_col}>
             some basic info...
           </Col>
-          <Col span={8} style={{ textAlign: 'end' }}>
+          <Col span={8} className={style.user_col}>
             <Popover content={userPopover}>
-              <Button className={style.row_content}>
-                <UserOutlined />
+              <Button className={style.big_nav_btn} type="primary" shape="circle">
+                <UserSwitchOutlined style={{ fontSize: '25px' }} />
               </Button>
             </Popover>
           </Col>
-          <Divider className={style.nav_divider} />
         </Row>
+        <Divider className={style.nav_divider} dashed />
       </>
     )
   }
