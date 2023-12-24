@@ -1,5 +1,6 @@
 import React from 'react'
 import Navbar from './components/Navbar'
+import Viewport from './components/Viewport'
 import Actionbar from './components/Actionbar'
 
 interface State {
@@ -38,6 +39,7 @@ class App extends React.Component<object, State> {
     return (
       <>
         <Navbar />
+        <Viewport />
         <Actionbar windowWidth={windowWidth} windowHeight={windowHeight} />
       </>
     )

@@ -1,6 +1,6 @@
 import React from 'react'
 import Voice from './Voice'
-// import { LeftBtn, RightBtn } from './CurvedBtns'
+// import { LeftBtn, RightBtn } from './Actbtns'
 import { Row, Col } from 'antd'
 import style from '@renderer/assets/actbar.module.less'
 
@@ -13,12 +13,16 @@ class Actionbar extends React.Component<Props, object> {
   render(): React.ReactNode {
     return (
       <>
-        <Row className={style.act_row}>
-          <Col span={10}>{/* <LeftBtn /> */}</Col>
-          <Col className={style.voice_col} span={4}>
+        <Row className={style.row_content}>
+          <Col span={10}>
+            <div style={{ width: 100, height: 100, backgroundColor: 'grey' }} />
+          </Col>
+          <Col span={4} className={style.voice_col}>
             <Voice />
           </Col>
-          <Col span={10}>{/* <RightBtn /> */}</Col>
+          <Col span={10} className={style.right_col}>
+            <div style={{ width: 100, height: 100, backgroundColor: 'grey' }} />
+          </Col>
         </Row>
       </>
     )
