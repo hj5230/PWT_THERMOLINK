@@ -1,21 +1,37 @@
 import React from 'react'
 import { Row, Col, Button, Popover, Divider } from 'antd'
-import { SettingOutlined, UserSwitchOutlined } from '@ant-design/icons'
+import { SettingOutlined, UserSwitchOutlined, CloseOutlined } from '@ant-design/icons'
+import Login from './Login'
 import style from '@renderer/assets/navbar.module.less'
 
-class Navbar extends React.Component {
+interface State {
+  isLoginOpen: boolean
+}
+
+class Navbar extends React.Component<object, State> {
+  state = {
+    isLoginOpen: false
+  }
+
+  openLoginModal = (): void => {
+    this.setState({ isLoginOpen: true })
+  }
+
+  closeLoginModal = (): void => {
+    this.setState({ isLoginOpen: false })
+  }
+
   userPopover = (
     <>
       <Row>
-        <Button className={style.full_button} type="text">
-          退 出
-        </Button>
+        <Button className={style.full_button}>Button</Button>
       </Row>
     </>
   )
 
   render(): React.ReactNode {
-    const { userPopover } = this
+    const { userPopover, openLoginModal } = this
+    const { isLoginOpen } = this.state
     return (
       <>
         <Row className={style.row_content}>
@@ -29,13 +45,23 @@ class Navbar extends React.Component {
           </Col>
           <Col span={8} className={style.user_col}>
             <Popover content={userPopover}>
-              <Button className={style.big_nav_btn} type="primary" shape="circle">
-                <UserSwitchOutlined style={{ fontSize: '25px' }} />
+              <Button
+                className={style.big_nav_btn}
+                type="primary"
+                shape="circle"
+                onClick={openLoginModal}
+              >
+                {isLoginOpen ? (
+                  <CloseOutlined style={{ fontSize: '30px' }} />
+                ) : (
+                  <UserSwitchOutlined style={{ fontSize: '25px' }} />
+                )}
               </Button>
             </Popover>
           </Col>
         </Row>
         <Divider className={style.nav_divider} dashed />
+        <Login isLoginOpen={isLoginOpen} onClose={this.closeLoginModal} />
       </>
     )
   }
