@@ -9,7 +9,7 @@ interface State {
 }
 
 class Navbar extends React.Component<object, State> {
-  state = {
+  state: Readonly<State> = {
     isLoginOpen: false
   }
 
