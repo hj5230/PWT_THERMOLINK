@@ -25,7 +25,7 @@ class Actionbar extends React.Component<Props, object> {
         <Row>
           <Col span={10}>
             <Flex justify="flex-start" align="flex-end" style={{ height: getVoiceBtnSize() }}>
-              <Button style={{ width: '100%', height: '15vh' }}></Button>
+              <Button type="primary" style={{ width: '100%', height: '50%' }}></Button>
             </Flex>
           </Col>
           <Col span={4}>
@@ -35,7 +35,7 @@ class Actionbar extends React.Component<Props, object> {
           </Col>
           <Col span={10}>
             <Flex justify="flex-end" align="flex-end" style={{ height: getVoiceBtnSize() }}>
-              <Button style={{ width: '100%', height: '15vh' }}></Button>
+              <Button type="primary" style={{ width: '100%', height: '50%' }}></Button>
             </Flex>
           </Col>
         </Row>
