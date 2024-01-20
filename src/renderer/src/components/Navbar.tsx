@@ -2,7 +2,7 @@ import React from 'react'
 import { Row, Col, Button, Popover, Divider } from 'antd'
 import { SettingOutlined, UserSwitchOutlined, CloseOutlined } from '@ant-design/icons'
 import Login from './Login'
-import style from '@renderer/assets/navbar.module.less'
+import style from '@renderer/assets/less/navbar.module.less'
 import Settings from './Settings'
 
 interface State {

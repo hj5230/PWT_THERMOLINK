@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from 'antd'
 import { AudioOutlined } from '@ant-design/icons'
-import style from '@renderer/assets/actbar.module.less'
+import style from '@renderer/assets/less/actbar.module.less'
 
 class Voice extends React.Component {
   render(): React.ReactNode {

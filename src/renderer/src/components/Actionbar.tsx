@@ -1,8 +1,8 @@
 import React from 'react'
 import Voice from './Voice'
 // import { LeftBtn, RightBtn } from './Actbtns'
-import { Row, Col } from 'antd'
-import style from '@renderer/assets/actbar.module.less'
+import { Row, Col, Button } from 'antd'
+import style from '@renderer/assets/less/actbar.module.less'
 
 interface Props {
   windowWidth: number
@@ -16,6 +16,7 @@ class Actionbar extends React.Component<Props, object> {
         <Row className={style.row_content}>
           <Col span={10}>
             <div style={{ width: 100, height: 100, backgroundColor: 'grey' }} />
+            {/* <Button style={{}}></Button> */}
           </Col>
           <Col span={4} className={style.voice_col}>
             <Voice />

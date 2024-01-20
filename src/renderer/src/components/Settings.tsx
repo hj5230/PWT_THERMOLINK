@@ -2,9 +2,9 @@ import React from 'react'
 import type { MenuProps } from 'antd'
 import type { MenuInfo } from 'rc-menu/lib/interface'
 import { Avatar, Button, Col, Drawer, Menu, Rate, Row, Segmented } from 'antd'
-import CHN from '@renderer/assets/cn.png'
-import GBR from '@renderer/assets/gb.png'
-import FIN from '@renderer/assets/fi.png'
+import CHN from '@renderer/assets/images/cn.png'
+import GBR from '@renderer/assets/images/gb.png'
+import FIN from '@renderer/assets/images/fi.png'
 
 type MenuItem = Required<MenuProps>['items'][number]
 

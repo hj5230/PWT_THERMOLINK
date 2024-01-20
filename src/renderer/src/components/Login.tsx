@@ -1,6 +1,6 @@
 import React from 'react'
 import { Modal, Input, Button } from 'antd'
-import style from '@renderer/assets/login.module.less'
+import style from '@renderer/assets/less/login.module.less'
 
 interface Props {
   isLoginOpen: boolean
