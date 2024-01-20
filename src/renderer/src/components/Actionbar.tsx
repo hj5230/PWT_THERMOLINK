@@ -1,8 +1,7 @@
 import React from 'react'
 import Voice from './Voice'
-// import { LeftBtn, RightBtn } from './Actbtns'
-import { Row, Col, Button } from 'antd'
-import style from '@renderer/assets/less/actbar.module.less'
+import { Row, Col, Button, Flex } from 'antd'
+// import style from '@renderer/assets/less/actbar.module.less'
 
 interface Props {
   windowWidth: number
@@ -10,19 +9,34 @@ interface Props {
 }
 
 class Actionbar extends React.Component<Props, object> {
+  componentDidUpdate = (): void => {
+    // console.log(this.props.windowWidth)
+  }
+
+  getVoiceBtnSize = (): number => {
+    const { windowWidth } = this.props
+    return (windowWidth - 16) / 6
+  }
+
   render(): React.ReactNode {
+    const { getVoiceBtnSize } = this
     return (
       <>
-        <Row className={style.row_content}>
+        <Row>
           <Col span={10}>
-            <div style={{ width: 100, height: 100, backgroundColor: 'grey' }} />
-            {/* <Button style={{}}></Button> */}
+            <Flex justify="flex-start" align="flex-end" style={{ height: getVoiceBtnSize() }}>
+              <Button style={{ width: '100%', height: '15vh' }}></Button>
+            </Flex>
           </Col>
-          <Col span={4} className={style.voice_col}>
-            <Voice />
+          <Col span={4}>
+            <Flex justify="center" align="center">
+              <Voice buttonSize={getVoiceBtnSize()} />
+            </Flex>
           </Col>
-          <Col span={10} className={style.right_col}>
-            <div style={{ width: 100, height: 100, backgroundColor: 'grey' }} />
+          <Col span={10}>
+            <Flex justify="flex-end" align="flex-end" style={{ height: getVoiceBtnSize() }}>
+              <Button style={{ width: '100%', height: '15vh' }}></Button>
+            </Flex>
           </Col>
         </Row>
       </>

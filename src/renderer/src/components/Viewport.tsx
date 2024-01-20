@@ -3,7 +3,7 @@ import React from 'react'
 
 class Viewport extends React.Component {
   render(): React.ReactNode {
-    return <Col style={{ height: '70vh' }}></Col>
+    return <Col style={{ height: '50vh' }}></Col>
   }
 }
 
