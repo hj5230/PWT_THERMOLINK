@@ -23,7 +23,8 @@
     "@electron-toolkit/preload": "^2.0.0",
     "@electron-toolkit/utils": "^2.0.0",
     "antd": "^5.12.1",
-    "electron-updater": "^6.1.1"
+    "electron-updater": "^6.1.1",
+    "three": "^0.160.0"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^1.0.1",
