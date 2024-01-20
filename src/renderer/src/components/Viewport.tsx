@@ -1,9 +1,13 @@
-import { Col } from 'antd'
 import React from 'react'
+import Heater from './Heater'
 
 class Viewport extends React.Component {
   render(): React.ReactNode {
-    return <Col style={{ height: '50vh' }}></Col>
+    return (
+      <div style={{ height: '55vh' }}>
+        <Heater />
+      </div>
+    )
   }
 }
 
