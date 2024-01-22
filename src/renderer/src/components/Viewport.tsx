@@ -1,11 +1,18 @@
 import React from 'react'
 import Heater from './Heater'
 
-class Viewport extends React.Component {
+interface Props {
+  windowWidth: number
+  widgetHeight: number
+}
+
+class Viewport extends React.Component<Props, object> {
   render(): React.ReactNode {
+    const { windowWidth, widgetHeight } = this.props
     return (
-      <div style={{ height: '55vh' }}>
-        <Heater />
+      <div style={{ height: widgetHeight }}>
+        {/* three model width to be fixed */}
+        <Heater windowWidth={windowWidth - 16} widgetHeight={widgetHeight} />
       </div>
     )
   }

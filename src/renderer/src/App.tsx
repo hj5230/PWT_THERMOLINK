@@ -39,8 +39,8 @@ class App extends React.Component<object, State> {
     return (
       <>
         <Navbar />
-        <Viewport />
-        <Actionbar windowWidth={windowWidth} windowHeight={windowHeight} />
+        <Viewport windowWidth={windowWidth} widgetHeight={windowHeight - 75} />
+        <Actionbar windowWidth={windowWidth} widgetHeight={100} />
       </>
     )
   }

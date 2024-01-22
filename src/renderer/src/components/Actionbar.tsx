@@ -1,18 +1,13 @@
 import React from 'react'
 import Voice from './Voice'
 import { Row, Col, Button, Flex } from 'antd'
-// import style from '@renderer/assets/less/actbar.module.less'
 
 interface Props {
   windowWidth: number
-  windowHeight: number
+  widgetHeight: number
 }
 
 class Actionbar extends React.Component<Props, object> {
-  componentDidUpdate = (): void => {
-    // console.log(this.props.windowWidth)
-  }
-
   getVoiceBtnSize = (): number => {
     const { windowWidth } = this.props
     return (windowWidth - 16) / 6
@@ -20,9 +15,17 @@ class Actionbar extends React.Component<Props, object> {
 
   render(): React.ReactNode {
     const { getVoiceBtnSize } = this
+    const { windowWidth } = this.props
     return (
       <>
-        <Row>
+        <Row
+          style={{
+            position: 'fixed',
+            bottom: '8px',
+            width: windowWidth - 16,
+            zIndex: 1
+          }}
+        >
           <Col span={10}>
             <Flex justify="flex-start" align="flex-end" style={{ height: getVoiceBtnSize() }}>
               <Button type="primary" style={{ width: '100%', height: '50%' }}></Button>

@@ -78,8 +78,8 @@ class Navbar extends React.Component<object, State> {
             </Popover>
           </Col>
         </Row>
-        <Divider className={style.nav_divider} dashed />
         <Login isLoginOpen={isLoginOpen} onClose={closeLoginModal} />
+        <Divider className={style.nav_divider} dashed />
       </>
     )
   }
