@@ -1,70 +1,131 @@
-import React, { RefObject } from 'react'
+import React from 'react'
 import * as THREE from 'three'
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader'
-// check WebGL
-// import WebGL from '@renderer/interfaces/WebGL.js'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import * as dat from 'dat.gui'
+
+type AnimateProps = {
+  scene: THREE.Scene
+  camera: THREE.PerspectiveCamera
+  renderer: THREE.Renderer
+}
+
+type TriggerFunction = () => void
+
+interface Animate {
+  animate: () => void
+  addTrigger: (cb: TriggerFunction) => void
+  offTrigger: (cb: TriggerFunction) => void
+}
 
 class Heater extends React.Component {
-  private mount: RefObject<HTMLDivElement>
-  private scene: THREE.Scene
-  private camera: THREE.PerspectiveCamera
-  private renderer: THREE.WebGLRenderer
+  private mount: HTMLDivElement | null = null
+  private loader: STLLoader
+  private textureLoader: THREE.TextureLoader
+  private gui: dat.GUI
 
   constructor(props: object) {
     super(props)
-    this.mount = React.createRef()
-    this.scene = new THREE.Scene()
-    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-    this.renderer = new THREE.WebGLRenderer()
+    this.loader = new STLLoader()
+    this.textureLoader = new THREE.TextureLoader()
+    this.gui = new dat.GUI()
   }
 
-  componentDidMount = async (): Promise<void> => {
-    // if (WebGL.isWebGLAvailable()) console.log('ok')
-    this.scene = new THREE.Scene()
-    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-    this.renderer = new THREE.WebGLRenderer()
-    this.renderer.setSize(window.innerWidth, window.innerHeight)
-    if (this.mount.current) {
-      this.renderer.setSize(window.innerWidth, window.innerHeight)
-      this.mount.current.appendChild(this.renderer.domElement)
+  createAnimate({ scene, camera, renderer }: AnimateProps): Animate {
+    const triggers: TriggerFunction[] = []
+
+    const animate = (): void => {
+      requestAnimationFrame(animate)
+
+      triggers.forEach((trigger) => {
+        trigger()
+      })
+
+      renderer.render(scene, camera)
     }
 
-    this.scene.background = new THREE.Color(0x8fbcd4)
-    const ambientLight = new THREE.AmbientLight(0x404040)
-    this.scene.add(ambientLight)
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1)
-    directionalLight.position.set(0, 1, 0)
-    this.scene.add(directionalLight)
+    const addTrigger = (cb: TriggerFunction): void => {
+      if (typeof cb === 'function') triggers.push(cb)
+    }
 
-    const loader = new STLLoader()
-    fetch(`https://cdn.jsdelivr.net/gh/hj5230/assets/heater.STL`)
-      .then((response) => response.blob())
-      .then((blob) => {
-        // console.log(blob)
-        loader.load(URL.createObjectURL(blob), (geometry) => {
-          const material = new THREE.MeshPhongMaterial({ color: 0x00ff00 })
-          const mesh = new THREE.Mesh(geometry, material)
-          mesh.scale.set(0.1, 0.1, 0.1)
-          this.scene.add(mesh)
-          this.animate()
-          this.camera.position.z = 5
-        })
-      })
+    const offTrigger = (cb: TriggerFunction): void => {
+      const triggerIndex = triggers.indexOf(cb)
+      if (triggerIndex !== -1) {
+        triggers.splice(triggerIndex, 1)
+      }
+    }
+
+    return { animate, addTrigger, offTrigger }
   }
 
-  // componentWillUnmount = (): void => {
-  //   if (this.mount.current) {
-  //     this.mount.current.removeChild(this.renderer.domElement)
-  //   }
-  // }
+  async componentDidMount(): Promise<void> {
+    const scene = new THREE.Scene()
+    const camera = new THREE.PerspectiveCamera(
+      750,
+      window.innerWidth / window.innerHeight,
+      10,
+      100000
+    )
 
-  animate = (): void => {
-    requestAnimationFrame(this.animate)
-    this.renderer.render(this.scene, this.camera)
+    this.loader.load(
+      'https://cdn.jsdelivr.net/gh/hj5230/assets/heater.STL',
+      (geometry: THREE.BufferGeometry) => {
+        const material = new THREE.MeshMatcapMaterial({
+          color: 0xffffff,
+          matcap: this.textureLoader.load(
+            'https://cdn.jsdelivr.net/gh/hj5230/assets/matcap-porcelain-white.jpg'
+          )
+        })
+        const mesh = new THREE.Mesh(geometry, material)
+
+        mesh.geometry.computeVertexNormals(true)
+        mesh.geometry.center()
+
+        scene.add(mesh)
+
+        mesh.rotation.x = -1.2
+      }
+    )
+
+    const renderer = new THREE.WebGLRenderer()
+    const controls = new OrbitControls(camera, renderer.domElement)
+
+    controls.maxDistance = 3000
+    controls.minDistance = 2000
+
+    const geometry = new THREE.BoxGeometry(10, 10, 10)
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+    const cube = new THREE.Mesh(geometry, material)
+    scene.add(cube)
+
+    const secondaryLight = new THREE.PointLight(0xff0000, 1, 100)
+    secondaryLight.position.set(5, 5, 5)
+    scene.add(secondaryLight)
+
+    this.gui.add(secondaryLight.position, 'y').min(-10).max(10).step(0.1)
+
+    renderer.setSize(window.innerWidth, window.innerHeight)
+    this.mount?.appendChild(renderer.domElement)
+
+    const onWindowResize = (): void => {
+      camera.aspect = window.innerWidth / window.innerHeight
+      camera.updateProjectionMatrix()
+
+      renderer.setSize(window.innerWidth, window.innerHeight)
+    }
+
+    window.addEventListener('resize', onWindowResize, false)
+
+    const animate = this.createAnimate({ scene, camera, renderer })
+
+    camera.position.z = 500
+
+    animate.animate()
   }
 
   render(): React.ReactNode {
-    return <div ref={this.mount} />
+    return <div ref={(ref) => (this.mount = ref)} />
   }
 }
+
 export default Heater
