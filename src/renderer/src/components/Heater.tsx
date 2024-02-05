@@ -1,5 +1,4 @@
 import React from 'react'
-import * as dat from 'dat.gui'
 import * as THREE from 'three'
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
@@ -27,7 +26,6 @@ class Heater extends React.Component<Props, object> {
   private mount: HTMLDivElement | null = null
   private loader: STLLoader
   private textureLoader: THREE.TextureLoader
-  private gui: dat.GUI
   private scene: THREE.Scene | null = null
   private camera: THREE.PerspectiveCamera | null = null
   private renderer: THREE.Renderer | null = null
@@ -37,7 +35,6 @@ class Heater extends React.Component<Props, object> {
     super(props)
     this.loader = new STLLoader()
     this.textureLoader = new THREE.TextureLoader()
-    this.gui = new dat.GUI()
     this.onWindowResize = this.onWindowResize.bind(this)
   }
 
@@ -77,7 +74,6 @@ class Heater extends React.Component<Props, object> {
     secondaryLight.position.set(5, 5, 5)
     this.scene.add(secondaryLight)
 
-    this.gui.add(secondaryLight.position, 'y').min(-10).max(10).step(0.1)
     this.renderer.setSize(windowWidth, widgetHeight)
     this.mount?.appendChild(this.renderer.domElement)
 
@@ -106,7 +102,6 @@ class Heater extends React.Component<Props, object> {
           if (object.material) {
             const material = object.material
             if (Array.isArray(material)) {
-              // In case of multi-materials, dispose each one
               material.forEach((mat) => this.disposeMaterial(mat))
             } else {
               this.disposeMaterial(material)
