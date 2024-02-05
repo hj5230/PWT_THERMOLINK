@@ -56,7 +56,8 @@ class Heater extends React.Component<Props, object> {
         mesh.geometry.computeVertexNormals(true)
         mesh.geometry.center()
         this.scene.add(mesh)
-        mesh.rotation.x = -1.2
+        mesh.rotation.x = 1.575
+        mesh.position.y += 120
       }
     )
 
@@ -64,11 +65,14 @@ class Heater extends React.Component<Props, object> {
     const controls = new OrbitControls(this.camera, this.renderer.domElement)
 
     controls.maxDistance = 3000
-    controls.minDistance = 2000
+    controls.minDistance = 3000
+    controls.minPolarAngle = Math.PI / 2
+    controls.maxPolarAngle = Math.PI / 2
 
     const geometry = new THREE.BoxGeometry(10, 10, 10)
     const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
     const cube = new THREE.Mesh(geometry, material)
+    this.scene.background = new THREE.Color(0xbbbbbb)
     this.scene.add(cube)
     const secondaryLight = new THREE.PointLight(0xff0000, 1, 100)
     secondaryLight.position.set(5, 5, 5)
@@ -85,6 +89,7 @@ class Heater extends React.Component<Props, object> {
       renderer: this.renderer
     })
 
+    this.camera.position.x = 500
     this.camera.position.z = 500
 
     animate.animate()
