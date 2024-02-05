@@ -26,8 +26,8 @@ class Actionbar extends React.Component<Props, State> {
   }
 
   render(): React.ReactNode {
+    const { getGeneralizedSize } = this
     const { windowWidth } = this.props
-    const { generalizedSize } = this.state
     return (
       <>
         <Row
@@ -39,7 +39,7 @@ class Actionbar extends React.Component<Props, State> {
           }}
         >
           <Col span={10}>
-            <Flex justify="flex-start" align="flex-end" style={{ height: generalizedSize }}>
+            <Flex justify="flex-start" align="flex-end" style={{ height: getGeneralizedSize() }}>
               <Button type="primary" style={{ width: '100%', height: '50%' }}>
                 <AreaChartOutlined style={{ fontSize: 32 }} />
               </Button>
@@ -47,11 +47,11 @@ class Actionbar extends React.Component<Props, State> {
           </Col>
           <Col span={4}>
             <Flex justify="center" align="center">
-              <Voice buttonSize={generalizedSize} />
+              <Voice buttonSize={getGeneralizedSize()} />
             </Flex>
           </Col>
           <Col span={10}>
-            <Flex justify="flex-end" align="flex-end" style={{ height: generalizedSize }}>
+            <Flex justify="flex-end" align="flex-end" style={{ height: getGeneralizedSize() }}>
               <Button type="primary" style={{ width: '100%', height: '50%' }}>
                 <ControlOutlined style={{ fontSize: 32 }} />
               </Button>
