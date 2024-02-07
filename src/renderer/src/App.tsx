@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from './components/Navbar'
 import Viewport from './components/Viewport'
 import Actionbar from './components/Actionbar'
+import Test from './components/Test'
 
 interface State {
   windowWidth: number
@@ -41,6 +42,7 @@ class App extends React.Component<object, State> {
         <Navbar />
         <Viewport windowWidth={windowWidth} widgetHeight={windowHeight - 75} />
         <Actionbar windowWidth={windowWidth} widgetHeight={100} />
+        <Test />
       </>
     )
   }
