@@ -1,7 +1,8 @@
 import React from 'react'
 import Voice from './Voice'
 import { Row, Col, Button, Flex } from 'antd'
-import { AreaChartOutlined, ControlOutlined } from '@ant-design/icons'
+import { ControlOutlined, FundProjectionScreenOutlined } from '@ant-design/icons'
+import style from '@renderer/assets/less/actbar.module.less'
 
 interface Props {
   windowWidth: number
@@ -40,8 +41,12 @@ class Actionbar extends React.Component<Props, State> {
         >
           <Col span={10}>
             <Flex justify="flex-start" align="flex-end" style={{ height: getGeneralizedSize() }}>
-              <Button type="primary" style={{ width: '100%', height: '50%' }}>
-                <AreaChartOutlined style={{ fontSize: 32 }} />
+              <Button
+                type="primary"
+                className={style.left_button}
+                style={{ width: '100%', height: '50%' }}
+              >
+                <ControlOutlined style={{ fontSize: 32 }} />
               </Button>
             </Flex>
           </Col>
@@ -52,8 +57,12 @@ class Actionbar extends React.Component<Props, State> {
           </Col>
           <Col span={10}>
             <Flex justify="flex-end" align="flex-end" style={{ height: getGeneralizedSize() }}>
-              <Button type="primary" style={{ width: '100%', height: '50%' }}>
-                <ControlOutlined style={{ fontSize: 32 }} />
+              <Button
+                type="primary"
+                className={style.right_button}
+                style={{ width: '100%', height: '50%' }}
+              >
+                <FundProjectionScreenOutlined style={{ fontSize: 32 }} />
               </Button>
             </Flex>
           </Col>
