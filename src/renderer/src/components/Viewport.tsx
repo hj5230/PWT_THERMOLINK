@@ -11,7 +11,6 @@ class Viewport extends React.Component<Props, object> {
     const { windowWidth, widgetHeight } = this.props
     return (
       <div style={{ height: widgetHeight }}>
-        {/* three model width to be fixed */}
         <Heater windowWidth={windowWidth - 16} widgetHeight={widgetHeight} />
       </div>
     )

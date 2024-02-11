@@ -64,8 +64,8 @@ class Heater extends React.Component<Props, object> {
     this.renderer = new THREE.WebGLRenderer()
     const controls = new OrbitControls(this.camera, this.renderer.domElement)
 
-    controls.maxDistance = 3000
-    controls.minDistance = 3000
+    controls.maxDistance = 3600
+    controls.minDistance = 2800
     controls.minPolarAngle = Math.PI / 2
     controls.maxPolarAngle = Math.PI / 2
 
