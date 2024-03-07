@@ -7,12 +7,14 @@ import Test from './components/Test'
 interface State {
   windowWidth: number
   windowHeight: number
+  loginUser: string | null
 }
 
 class App extends React.Component<object, State> {
   state: State = {
     windowWidth: window.innerWidth,
-    windowHeight: window.innerHeight
+    windowHeight: window.innerHeight,
+    loginUser: null
   }
 
   updateWidth = (): void => {
@@ -35,11 +37,16 @@ class App extends React.Component<object, State> {
     window.removeEventListener('resize', updateHeight)
   }
 
+  setLoginUser = (e: string): void => {
+    this.setState({ loginUser: e })
+  }
+
   render(): React.ReactNode {
-    const { windowWidth, windowHeight } = this.state
+    const { setLoginUser } = this
+    const { windowWidth, windowHeight, loginUser } = this.state
     return (
       <>
-        <Navbar />
+        <Navbar setLoginUser={setLoginUser} loginUser={loginUser} />
         <Viewport windowWidth={windowWidth} widgetHeight={windowHeight - 75} />
         <Actionbar windowWidth={windowWidth} widgetHeight={100} />
         <Test />
