@@ -53,7 +53,12 @@ class App extends React.Component<object, State> {
     return (
       <>
         <Navbar setLoginUser={setLoginUser} loginUser={loginUser} />
-        <Viewport windowWidth={windowWidth} widgetHeight={windowHeight - 75} view={view} />
+        <Viewport
+          windowWidth={windowWidth}
+          widgetHeight={windowHeight - 75}
+          view={view}
+          setView={setView}
+        />
         <Actionbar windowWidth={windowWidth} widgetHeight={100} setView={setView} />
         <Test />
       </>
