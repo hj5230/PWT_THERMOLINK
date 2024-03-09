@@ -1,6 +1,7 @@
 import React from 'react'
 import Heater from './Heater'
 import Control from './Control'
+import Predict from './Predict'
 
 interface Props {
   windowWidth: number
@@ -22,7 +23,7 @@ class Viewport extends React.Component<Props, object> {
       <div style={{ height: widgetHeight }}>
         {view === 0 && <Heater windowWidth={windowWidth - 16} widgetHeight={widgetHeight} />}
         {view === 1 && <Control back={changeViewToDefault} />}
-        {view === 2 && <div />}
+        {view === 2 && <Predict back={changeViewToDefault} />}
       </div>
     )
   }
