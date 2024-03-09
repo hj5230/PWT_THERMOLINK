@@ -8,13 +8,15 @@ interface State {
   windowWidth: number
   windowHeight: number
   loginUser: string | null
+  view: number
 }
 
 class App extends React.Component<object, State> {
   state: State = {
     windowWidth: window.innerWidth,
     windowHeight: window.innerHeight,
-    loginUser: null
+    loginUser: null,
+    view: 0
   }
 
   updateWidth = (): void => {
@@ -41,14 +43,18 @@ class App extends React.Component<object, State> {
     this.setState({ loginUser: e })
   }
 
+  setView = (e: number): void => {
+    this.setState({ view: e })
+  }
+
   render(): React.ReactNode {
-    const { setLoginUser } = this
-    const { windowWidth, windowHeight, loginUser } = this.state
+    const { setLoginUser, setView } = this
+    const { windowWidth, windowHeight, loginUser, view } = this.state
     return (
       <>
         <Navbar setLoginUser={setLoginUser} loginUser={loginUser} />
-        <Viewport windowWidth={windowWidth} widgetHeight={windowHeight - 75} />
-        <Actionbar windowWidth={windowWidth} widgetHeight={100} />
+        <Viewport windowWidth={windowWidth} widgetHeight={windowHeight - 75} view={view} />
+        <Actionbar windowWidth={windowWidth} widgetHeight={100} setView={setView} />
         <Test />
       </>
     )
