@@ -43,7 +43,7 @@ class Voice extends React.Component<Props, State> {
       this.sendAudioToServer(audioBlob)
       this.setState({ audioChunks: [] }) // Reset audio chunks after sending
     })
-  }
+  }  
 
   sendAudioToServer = async (mp3Blob: Blob): Promise<void> => {
     const formData = new FormData();
