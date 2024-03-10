@@ -45,22 +45,26 @@ class Voice extends React.Component<Props, State> {
     })
   }
 
-  sendAudioToServer = async (audioBlob: Blob): Promise<void> => {
-    const formData = new FormData()
-    formData.append('audio', audioBlob)
-    fetch('http://localhost:5000/audio', {
-      method: 'POST',
-      body: formData
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Audio uploaded successfully:', data)
-      })
-      .catch((error) => {
-        console.error('Error uploading audio:', error)
-      })
-  }
-
+  sendAudioToServer = async (mp3Blob: Blob): Promise<void> => {
+    const formData = new FormData();
+    formData.append('audio', mp3Blob, 'filename.mp3'); // 确保这个Blob是MP3格式的
+  
+    try {
+      const response = await fetch('http://localhost:5000/audio', {
+        method: 'POST',
+        body: formData,
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok.');
+      }
+      const data = await response.json();
+      console.log('Audio uploaded successfully:', data);
+    } catch (error) {
+      console.error('Error uploading audio:', error);
+    }
+  };
+  
+  
   changeRecordState = (): void => {
     const { recording } = this.state
     if (recording) {
