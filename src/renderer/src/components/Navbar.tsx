@@ -1,16 +1,21 @@
 import React from 'react'
-import { Row, Col, Button, Popover, Divider } from 'antd'
+import { Row, Col, Button, Divider } from 'antd'
 import { SettingOutlined, UserSwitchOutlined, CloseOutlined } from '@ant-design/icons'
 import Login from './Login'
-import style from '@renderer/assets/less/navbar.module.less'
 import Settings from './Settings'
+import style from '@renderer/assets/less/navbar.module.less'
+
+interface Props {
+  setLoginUser: (e: string) => void
+  loginUser: string | null
+}
 
 interface State {
   isLoginOpen: boolean
   isSettingsOpen: boolean
 }
 
-class Navbar extends React.Component<object, State> {
+class Navbar extends React.Component<Props, State> {
   state: Readonly<State> = {
     isLoginOpen: false,
     isSettingsOpen: false
@@ -32,22 +37,9 @@ class Navbar extends React.Component<object, State> {
     this.setState({ isSettingsOpen: false })
   }
 
-  userPopover = (
-    <>
-      <Row>
-        <Button className={style.full_button}>Button</Button>
-      </Row>
-    </>
-  )
-
   render(): React.ReactNode {
-    const {
-      userPopover,
-      openLoginModal,
-      closeLoginModal,
-      openSettingsDrawer,
-      closeSettingsDrawer
-    } = this
+    const { openLoginModal, closeLoginModal, openSettingsDrawer, closeSettingsDrawer } = this
+    const { setLoginUser, loginUser } = this.props
     const { isLoginOpen, isSettingsOpen } = this.state
     return (
       <>
@@ -62,23 +54,26 @@ class Navbar extends React.Component<object, State> {
             some basic info...
           </Col>
           <Col span={8} className={style.user_col}>
-            <Popover content={userPopover}>
-              <Button
-                className={style.big_nav_btn}
-                type="primary"
-                shape="circle"
-                onClick={openLoginModal}
-              >
-                {isLoginOpen ? (
-                  <CloseOutlined style={{ fontSize: '30px' }} />
-                ) : (
-                  <UserSwitchOutlined style={{ fontSize: '25px' }} />
-                )}
-              </Button>
-            </Popover>
+            <Button
+              className={style.big_nav_btn}
+              type="primary"
+              shape="circle"
+              onClick={openLoginModal}
+            >
+              {isLoginOpen ? (
+                <CloseOutlined style={{ fontSize: '30px' }} />
+              ) : (
+                <UserSwitchOutlined style={{ fontSize: '25px' }} />
+              )}
+            </Button>
           </Col>
         </Row>
-        <Login isLoginOpen={isLoginOpen} onClose={closeLoginModal} />
+        <Login
+          isLoginOpen={isLoginOpen}
+          onClose={closeLoginModal}
+          setLoginUser={setLoginUser}
+          loginUser={loginUser}
+        />
         <Divider className={style.nav_divider} dashed />
       </>
     )

@@ -7,6 +7,7 @@ import style from '@renderer/assets/less/actbar.module.less'
 interface Props {
   windowWidth: number
   widgetHeight: number
+  setView: (e: number) => void
 }
 
 interface State {
@@ -26,8 +27,18 @@ class Actionbar extends React.Component<Props, State> {
     return (windowWidth - 16) / 6
   }
 
+  changeViewToLeft = (): void => {
+    const { setView } = this.props
+    setView(1)
+  }
+
+  changeViewToRight = (): void => {
+    const { setView } = this.props
+    setView(2)
+  }
+
   render(): React.ReactNode {
-    const { getGeneralizedSize } = this
+    const { getGeneralizedSize, changeViewToLeft, changeViewToRight } = this
     const { windowWidth } = this.props
     return (
       <>
@@ -45,6 +56,7 @@ class Actionbar extends React.Component<Props, State> {
                 type="primary"
                 className={style.left_button}
                 style={{ width: '100%', height: '50%' }}
+                onClick={changeViewToLeft}
               >
                 <ControlOutlined style={{ fontSize: 32 }} />
               </Button>
@@ -61,6 +73,7 @@ class Actionbar extends React.Component<Props, State> {
                 type="primary"
                 className={style.right_button}
                 style={{ width: '100%', height: '50%' }}
+                onClick={changeViewToRight}
               >
                 <FundProjectionScreenOutlined style={{ fontSize: 32 }} />
               </Button>

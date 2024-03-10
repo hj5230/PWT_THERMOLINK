@@ -1,10 +1,7 @@
 import React from 'react'
 import type { MenuProps } from 'antd'
 import type { MenuInfo } from 'rc-menu/lib/interface'
-import { Avatar, Button, Col, Drawer, Menu, Rate, Row, Segmented } from 'antd'
-import CHN from '@renderer/assets/images/cn.png'
-import GBR from '@renderer/assets/images/gb.png'
-import FIN from '@renderer/assets/images/fi.png'
+import { Button, Col, Drawer, Menu, Rate, Row, Segmented } from 'antd'
 
 type MenuItem = Required<MenuProps>['items'][number]
 
@@ -24,38 +21,10 @@ const toMenuItem = (
 
 const rootKeys = ['lang', 'cuse']
 
-const langOpts = [
-  {
-    label: (
-      <div style={{ padding: 4 }}>
-        <Avatar src={CHN} />
-      </div>
-    ),
-    value: 'en'
-  },
-  {
-    label: (
-      <div style={{ padding: 4 }}>
-        <Avatar src={GBR} />
-      </div>
-    ),
-    value: 'zh'
-  },
-  {
-    label: (
-      <div style={{ padding: 4 }}>
-        <Avatar src={FIN} />
-      </div>
-    ),
-    value: 'fi'
-  }
-]
-
 const items: MenuProps['items'] = [
   toMenuItem('Language', 'lang', null, [
     toMenuItem(
-      // <Segmented options={['中文', 'English', 'Suomi']} defaultValue={'English'} />,
-      <Segmented options={langOpts} defaultValue={'English'} />,
+      <Segmented options={['中文', 'English', 'Suomi']} defaultValue={'English'} />,
       'langopts'
     )
   ]),

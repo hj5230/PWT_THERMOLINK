@@ -1,18 +1,23 @@
 import React from 'react'
+import { ConfigProvider } from 'antd'
 import Navbar from './components/Navbar'
 import Viewport from './components/Viewport'
 import Actionbar from './components/Actionbar'
-import Test from './components/Test'
+import Popup from './components/Popup'
 
 interface State {
   windowWidth: number
   windowHeight: number
+  loginUser: string | null
+  view: number
 }
 
 class App extends React.Component<object, State> {
   state: State = {
     windowWidth: window.innerWidth,
-    windowHeight: window.innerHeight
+    windowHeight: window.innerHeight,
+    loginUser: null,
+    view: 0
   }
 
   updateWidth = (): void => {
@@ -35,15 +40,29 @@ class App extends React.Component<object, State> {
     window.removeEventListener('resize', updateHeight)
   }
 
+  setLoginUser = (e: string): void => {
+    this.setState({ loginUser: e })
+  }
+
+  setView = (e: number): void => {
+    this.setState({ view: e })
+  }
+
   render(): React.ReactNode {
-    const { windowWidth, windowHeight } = this.state
+    const { setLoginUser, setView } = this
+    const { windowWidth, windowHeight, loginUser, view } = this.state
     return (
-      <>
-        <Navbar />
-        <Viewport windowWidth={windowWidth} widgetHeight={windowHeight - 75} />
-        <Actionbar windowWidth={windowWidth} widgetHeight={100} />
-        <Test />
-      </>
+      <ConfigProvider theme={{}}>
+        <Navbar setLoginUser={setLoginUser} loginUser={loginUser} />
+        <Viewport
+          windowWidth={windowWidth}
+          widgetHeight={windowHeight - 75}
+          view={view}
+          setView={setView}
+        />
+        <Actionbar windowWidth={windowWidth} widgetHeight={100} setView={setView} />
+        <Popup />
+      </ConfigProvider>
     )
   }
 }
