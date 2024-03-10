@@ -1,8 +1,9 @@
 import React from 'react'
+import { ConfigProvider } from 'antd'
 import Navbar from './components/Navbar'
 import Viewport from './components/Viewport'
 import Actionbar from './components/Actionbar'
-import Test from './components/Test'
+import Popup from './components/Popup'
 
 interface State {
   windowWidth: number
@@ -51,7 +52,7 @@ class App extends React.Component<object, State> {
     const { setLoginUser, setView } = this
     const { windowWidth, windowHeight, loginUser, view } = this.state
     return (
-      <>
+      <ConfigProvider theme={{}}>
         <Navbar setLoginUser={setLoginUser} loginUser={loginUser} />
         <Viewport
           windowWidth={windowWidth}
@@ -60,8 +61,8 @@ class App extends React.Component<object, State> {
           setView={setView}
         />
         <Actionbar windowWidth={windowWidth} widgetHeight={100} setView={setView} />
-        <Test />
-      </>
+        <Popup />
+      </ConfigProvider>
     )
   }
 }

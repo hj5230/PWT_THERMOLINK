@@ -35,7 +35,16 @@ class Test extends React.Component {
       })
   }
 
-  openNotificationWithIcon = (type, data) => {
+  openNotificationWithIcon = (
+    type: string,
+    data: {
+      message?: string
+      description?: string
+      heater_on_time_prediction?: string
+      target_temperature_prediction?: string
+      heating_time_prediction?: string
+    }
+  ): void => {
     notification[type]({
       message: 'Prediction Results',
       description: (
