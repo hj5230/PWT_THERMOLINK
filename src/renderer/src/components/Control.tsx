@@ -19,15 +19,22 @@ const { Option } = Select
 
 interface Props {
   back: () => void
+  tickle: () => void
 }
 
 interface State {
   value: number[]
+  smartMode: boolean
 }
 
 class Control extends React.Component<Props, State> {
-  state: State = {
-    value: [10, 20]
+  constructor(props: Readonly<Props>) {
+    super(props)
+    const smartMode = localStorage.getItem('smartMode') === 'true'
+    this.state = {
+      value: [10, 20],
+      smartMode
+    }
   }
 
   getGradientColor = (percentage: number): string => {
@@ -53,10 +60,19 @@ class Control extends React.Component<Props, State> {
     this.setState({ value: value })
   }
 
+  switchSmartMode = (): void => {
+    const { tickle } = this.props
+    const smartMode = localStorage.getItem('smartMode') === 'true'
+    const newSmartMode = !smartMode
+    localStorage.setItem('smartMode', newSmartMode.toString())
+    this.setState({ smartMode: newSmartMode })
+    tickle()
+  }
+
   render(): React.ReactNode {
-    const { getGradientColor, setValue, setTemp } = this
+    const { getGradientColor, setValue, setTemp, switchSmartMode } = this
     const { back } = this.props
-    const { value } = this.state
+    const { value, smartMode } = this.state
     const start = value[0] / 100
     const end = value[value.length - 1] / 100
     return (
@@ -73,7 +89,12 @@ class Control extends React.Component<Props, State> {
           </Flex>
           <Row className={style.row}>
             <Tag color="cyan">Smart Control Mode</Tag>
-            <Switch checkedChildren="ON" unCheckedChildren="OFF" />
+            <Switch
+              checkedChildren="ON"
+              unCheckedChildren="OFF"
+              onChange={switchSmartMode}
+              value={smartMode}
+            />
           </Row>
           <Row className={style.row}>
             <Tag color="red">Power</Tag>

@@ -4,6 +4,7 @@ import Control from './Control'
 import Predict from './Predict'
 
 interface Props {
+  tickle: () => void
   windowWidth: number
   widgetHeight: number
   view: number
@@ -18,11 +19,11 @@ class Viewport extends React.Component<Props, object> {
 
   render(): React.ReactNode {
     const { changeViewToDefault } = this
-    const { windowWidth, widgetHeight, view } = this.props
+    const { tickle, windowWidth, widgetHeight, view } = this.props
     return (
       <div style={{ height: widgetHeight }}>
         {view === 0 && <Heater windowWidth={windowWidth - 16} widgetHeight={widgetHeight} />}
-        {view === 1 && <Control back={changeViewToDefault} />}
+        {view === 1 && <Control back={changeViewToDefault} tickle={tickle} />}
         {view === 2 && <Predict back={changeViewToDefault} />}
       </div>
     )

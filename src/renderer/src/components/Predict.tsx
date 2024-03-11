@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, Row, Button, List, Typography } from 'antd'
-import { CloseOutlined } from '@ant-design/icons'
+import { CloseOutlined, WarningTwoTone } from '@ant-design/icons'
 import style from '@renderer/assets/less/viewport.module.less'
 
 const { Title, Paragraph } = Typography
@@ -11,6 +11,7 @@ interface Props {
 }
 
 interface State {
+  smartMode: boolean
   heaterOnTimePrediction?: number
   targetTemperaturePrediction?: number
   heatingTimePrediction?: number
@@ -22,11 +23,20 @@ interface State {
 class Predict extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
-    this.state = {} // Initial state is empty, will be populated with fetched data
+    const smartMode = localStorage.getItem('smartMode') === 'true'
+    this.state = {
+      smartMode
+    } // Initial state is empty, will be populated with fetched data
   }
 
   componentDidMount = (): void => {
-    this.fetchPredictionData()
+    const { fetchPredictionData } = this
+    fetchPredictionData()
+  }
+
+  componentDidUpdate = (_, prevState: Readonly<State>): void => {
+    const smartMode = localStorage.getItem('smartMode') === 'true'
+    if (prevState.smartMode !== smartMode) this.setState({ smartMode })
   }
 
   fetchPredictionData = async (): Promise<void> => {
@@ -160,6 +170,7 @@ class Predict extends React.Component<Props, State> {
 
   render(): React.ReactNode {
     const { back } = this.props
+    const { smartMode } = this.state
     return (
       <Card>
         <Row justify="end">
@@ -171,7 +182,24 @@ class Predict extends React.Component<Props, State> {
             onClick={back}
           />
         </Row>
-        {this.renderPredictionResults()}
+        {smartMode ? (
+          this.renderPredictionResults()
+        ) : (
+          <>
+            <WarningTwoTone style={{ fontSize: 50 }} />
+            <Item>
+              <Item.Meta
+                title={<span className={style.title}>Smart Control Mode is Off</span>}
+                description={
+                  <span className={style.meta_item}>
+                    You need to activate smart control mode in control panel to enable user habit
+                    predictions
+                  </span>
+                }
+              />
+            </Item>
+          </>
+        )}
       </Card>
     )
   }

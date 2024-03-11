@@ -1,14 +1,31 @@
 import React from 'react'
 import { notification } from 'antd'
 
-class Test extends React.Component {
+interface Props {
+  tickle: boolean
+}
+
+class Test extends React.Component<Props, object> {
   componentDidMount = async (): Promise<void> => {
+    const { fetchNotificationInfo } = this
+    const smartMode = localStorage.getItem('smartMode') === 'true'
+    if (!smartMode) return
+    fetchNotificationInfo()
+  }
+
+  componentDidUpdate(prevProps: Readonly<Props>): void {
+    const { fetchNotificationInfo } = this
+    const { tickle } = this.props
+    const smartMode = localStorage.getItem('smartMode') === 'true'
+    if (prevProps.tickle !== tickle && smartMode) fetchNotificationInfo()
+  }
+
+  fetchNotificationInfo = async (): Promise<void> => {
     const payload = {
       features_heater_on_time: [0, 18, 5, 50],
       features_temp: [0, 18],
       features_heating_time: [19, 5, 50]
     }
-
     fetch(`http://localhost:5000/predict`, {
       method: 'POST',
       headers: {

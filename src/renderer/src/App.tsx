@@ -6,6 +6,7 @@ import Actionbar from './components/Actionbar'
 import Popup from './components/Popup'
 
 interface State {
+  tickle: boolean
   windowWidth: number
   windowHeight: number
   loginUser: string | null
@@ -14,10 +15,16 @@ interface State {
 
 class App extends React.Component<object, State> {
   state: State = {
+    tickle: false,
     windowWidth: window.innerWidth,
     windowHeight: window.innerHeight,
     loginUser: null,
     view: 0
+  }
+
+  tickleFunc = (): void => {
+    const { tickle } = this.state
+    this.setState({ tickle: !tickle })
   }
 
   updateWidth = (): void => {
@@ -49,19 +56,20 @@ class App extends React.Component<object, State> {
   }
 
   render(): React.ReactNode {
-    const { setLoginUser, setView } = this
-    const { windowWidth, windowHeight, loginUser, view } = this.state
+    const { tickleFunc, setLoginUser, setView } = this
+    const { tickle, windowWidth, windowHeight, loginUser, view } = this.state
     return (
       <ConfigProvider theme={{}}>
         <Navbar setLoginUser={setLoginUser} loginUser={loginUser} />
         <Viewport
+          tickle={tickleFunc}
           windowWidth={windowWidth}
           widgetHeight={windowHeight - 75}
           view={view}
           setView={setView}
         />
         <Actionbar windowWidth={windowWidth} widgetHeight={100} setView={setView} />
-        <Popup />
+        <Popup tickle={tickle} />
       </ConfigProvider>
     )
   }

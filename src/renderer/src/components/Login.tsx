@@ -97,7 +97,6 @@ class Login extends React.Component<Props, State> {
     const { onSubmit, onVerifyInputs } = this
     const { isLoginOpen, onClose, loginUser } = this.props
     const { inputsStatus, loading, productId, username, email, loginError } = this.state
-    console.log(loginUser)
     return (
       <Modal
         title="Login"
