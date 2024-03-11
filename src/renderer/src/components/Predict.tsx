@@ -1,6 +1,10 @@
 import React from 'react'
-import { Card, Row, Button } from 'antd' // Import Row instead of Flex
+import { Card, Row, Button, List, Typography } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
+import style from '@renderer/assets/less/viewport.module.less'
+
+const { Title, Paragraph } = Typography
+const { Item } = List
 
 interface Props {
   back: () => void
@@ -82,7 +86,6 @@ class Predict extends React.Component<Props, State> {
       hours,
       minutes
     )
-
     const diff = predictionTime.getTime() - currentTime.getTime()
     if (diff < 0) {
       return 'The expected start time has been reached.'
@@ -93,7 +96,20 @@ class Predict extends React.Component<Props, State> {
     }
   }
 
+  formatHeaterOnTime = (prediction: number): string => {
+    const hours = Math.floor(prediction)
+    const minutes = Math.round((prediction - hours) * 60)
+    return `${hours} : ${minutes}`
+  }
+
+  formatPredictionTime = (prediction: number): string => {
+    const hours = Math.floor(prediction)
+    const minutes = Math.round((prediction - hours) * 60)
+    return `${hours} hours ${minutes} minutes`
+  }
+
   renderPredictionResults = (): React.ReactNode => {
+    const { formatHeaterOnTime, formatPredictionTime } = this
     const {
       heaterOnTimePrediction,
       targetTemperaturePrediction,
@@ -102,15 +118,43 @@ class Predict extends React.Component<Props, State> {
       error
     } = this.state
     if (error) {
-      return <p>Error: {error}</p> // Access message property of error object
+      return <Typography.Text type="danger">Error: {error}</Typography.Text>
     }
+    const predictions = [
+      {
+        title: 'Heater On Time',
+        value: heaterOnTimePrediction ? formatHeaterOnTime(heaterOnTimePrediction) : 'N/A'
+      },
+      {
+        title: 'Target Temperature',
+        value: targetTemperaturePrediction ? `${Math.round(targetTemperaturePrediction)} ℃` : 'N/A'
+      },
+      {
+        title: 'Heating Time',
+        value: heatingTimePrediction ? formatPredictionTime(heatingTimePrediction) : 'N/A'
+      }
+    ]
     return (
-      <div>
-        <p>Heater On Time Prediction: {heaterOnTimePrediction} (HH.MM format)</p>
-        <p>Target Temperature Prediction: {targetTemperaturePrediction} (min)</p>
-        <p>Heating Time Prediction: {heatingTimePrediction} (HH.MM format)</p>
-        <p>{timeUntilHeaterOn && `Time until heater turns on: ${timeUntilHeaterOn}`}</p>
-      </div>
+      <>
+        <Title level={2}>Prediction Results</Title>
+        <List
+          itemLayout="horizontal"
+          dataSource={predictions}
+          renderItem={(item) => (
+            <Item>
+              <Item.Meta
+                title={<span className={style.title}>{item.title}</span>}
+                description={<span className={style.meta_item}>{item.value}</span>}
+              />
+            </Item>
+          )}
+        />
+        {timeUntilHeaterOn && (
+          <Paragraph>
+            Time until heater turns on: <strong>{timeUntilHeaterOn}</strong>
+          </Paragraph>
+        )}
+      </>
     )
   }
 
@@ -119,8 +163,6 @@ class Predict extends React.Component<Props, State> {
     return (
       <Card>
         <Row justify="end">
-          {' '}
-          {/* Use Row with justify */}
           <Button
             type="primary"
             shape="circle"
