@@ -47,8 +47,7 @@ class Voice extends React.Component<Props, State> {
 
   sendAudioToServer = async (mp3Blob: Blob): Promise<void> => {
     const formData = new FormData()
-    formData.append('audio', mp3Blob, 'filename.mp3') // 确保这个Blob是MP3格式的
-
+    formData.append('audio', mp3Blob, 'filename.mp3') // ensures the blob is in mp3 format
     try {
       const response = await fetch('http://localhost:5000/audio', {
         method: 'POST',
