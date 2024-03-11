@@ -51,7 +51,7 @@ class Navbar extends React.Component<Props, State> {
             <Settings isSettingsOpen={isSettingsOpen} closeSettings={closeSettingsDrawer} />
           </Col>
           <Col span={8} className={style.info_col}>
-            some basic info...
+            THERMOLINK
           </Col>
           <Col span={8} className={style.user_col}>
             <Button
